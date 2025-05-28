@@ -1,0 +1,19 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{now-jmb}
+          [2015/04/27 v1.01 jmb specific styling]
+%v1.01 added \usepackage[american]{babel}
+
+% Indent every paragraph
+\RequirePackage{indentfirst}
+\RequirePackage{lettrine}
+\usepackage[american]{babel}
+\setcounter{DefaultLines}{1}
+
+\renewcommand\now@font@abstract     {\normalfont\fontsize{9}{12}\selectfont}
+\renewcommand\now@font@section      {\normalfont\normalsize\bfseries\boldmath}
+
+\newcommand\jmblettrine[2]{\par\lettrine{#1}{#2}{\Huge\rule{0pt}{\ht\strutbox}}}
+\newcommand\jmbtocsubtitle[1]{\addtowrapppertoc{\protect\par\protect\bigskip\protect\noindent\textbf{\textsc{#1}}\protect\par\protect\vspace{-0.5em}}}
+
+\setcounter{secnumdepth}{-1}
+\endinput

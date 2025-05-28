@@ -1,0 +1,228 @@
+%% $UFDate: 2015-06-08 19:02:53 +0200 -- Commit: fa84053 (HEAD, origin/master, master) -- master$
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{now-cfr}
+          [2015/06/08 v1.7 cfr specific styling]
+%08.06.2015 added s-columntype, removed articleDOI setting          
+\IfFileExists{cfr-journaldata.tex}{}{\journaltitle{CFR (draft)}}{}
+
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[charter,ttscaled=true]{mathdesign}
+
+\DeclareTextSymbolDefault\textasteriskcentered{OMS}
+\RequirePackage{berasans}
+\RequirePackage{needspace}
+\RequirePackage{booktabs}
+\RequirePackage{enumitem}
+\RequirePackage{expl3}
+\RequirePackage{bm}
+\RequirePackage{placeins}
+\RequirePackage{adjustbox}
+
+%centered graphics
+\newcommand\cincludegraphics[1][]{%
+\adjincludegraphics[#1,center]}
+
+%marker commands
+\newcommand{\sfix}[1]{{\typeout{SFIX on Page \thepage!}\setlength{\fboxrule}{1pt}\fcolorbox{black}{yellow}{{#1}}}}
+\newcommand{\fix}[1]{\typeout{FIX on Page \thepage!} \standout{#1} }
+\newcommand{\standout}[1]{{%
+    \renewcommand{\baselinestretch}{1.0} \normalsize \footnotesize
+    \begin{center}
+      \setlength{\fboxrule}{3pt}%
+      \fcolorbox{black}{yellow}{
+          \begin{minipage}{0.8\textwidth}
+            {\bf \footnotesize #1}
+          \end{minipage}
+        }
+    \end{center}
+    }}
+
+%Variables
+\definecolor{darkblue}{rgb}{0.0, 0.0, 0.55}
+\newcommand\vb[1]{\ifmmode\text{\textcolor{darkblue}{#1}}\else\textcolor{darkblue}{#1}\fi}
+
+\newcounter{panel}[table]
+\renewcommand\thepanel{\Alph{panel}}
+\newcommand\panel[2][\refstepcounter{panel}\thepanel]{\par\begingroup\bigskip\centering\strut Panel #1: #2\par\endgroup\smallskip}
+
+\providecommand\fnsep{\textsuperscript{,}}
+
+
+%Spacing after abstract
+\newcommand\cfr@needspaceafterabstract{}
+\newcommand\cfrsetspaceafterabstract[1]{\renewcommand\cfr@needspaceafterabstract{\Needspace{#1}}}
+%Default setting:
+\cfrsetspaceafterabstract{0.25\textheight}
+
+\AfterEndEnvironment{abstract}{\par\cfr@needspaceafterabstract\@afterindentfalse\@afterheading}
+
+% biblatex penalty
+\defcounter{abbrvpenalty}{9000}
+
+%New biblatex driver for workingpaper
+\DeclareBibliographyAlias{workingpaper}{unpublished}
+\DeclareStyleSourcemap{
+  \maps[datatype=bibtex, overwrite=true]{
+    \map{
+      \pertype{workingpaper}
+      \step[fieldset=howpublished, fieldvalue=Unpublished working paper]
+    }
+  }
+}
+
+
+%Floats
+\providecommand\now@font@tablenote{}
+\providecommand\now@font@tablefigdesc{}
+
+\providecommand\Note[1]{}
+\providecommand\Source[1]{}
+\providecommand\Description[1]{}
+\providecommand\Interpretation[1]{}
+
+\newcommand\now@float@flushboth{%
+  \let\\\@normalcr
+  \@rightskip\z@skip \rightskip\@rightskip
+  \leftskip\z@skip\relax
+  \parfillskip=0pt plus 1fil}
+
+\renewcommand\Note[1]{\begingroup\now@float@flushboth\par\smallskip\now@font@tablenote\textbf{Note: }#1\par\endgroup}
+
+\renewcommand\Source[1]{\begingroup\now@float@flushboth\par\now@font@tablenote\textbf{Source: }#1\par\endgroup}
+
+\renewcommand\Description[1]{\begingroup\now@float@flushboth\par\smallskip\now@font@tablefigdesc\textbf{Description: }#1\par\endgroup}
+\newcommand\Descriptionfont{\now@font@tablefigdesc}
+
+\renewcommand\Interpretation[1]{\begingroup\now@float@flushboth\par\smallskip\now@font@tablefigdesc\textbf{Interpretation: }#1\par\endgroup}
+
+\DeclareCaptionFormat{continued}{#1#2:{\let\par\relax#3} \itshape(Continued)\strut\par}
+\captionsetup[ContinuedFloat]{format=continued}
+
+\captionsetup[table]{position=bottom}
+
+\addtolength\textfloatsep{12pt} %27.04.2015, more space after tables
+
+\newcolumntype{e}[1]{D{,}{\,\pm\,}{#1}}
+\newcolumntype{s}{@{\;\;}}
+
+%centered tabulars
+\newenvironment{ctabular}{\par\centering\begin{tabular}}{\end{tabular}\par}
+
+%\appendix setup
+
+\appto\appendix{%
+ \setcounter{table}{0}%
+ \renewcommand{\thetable}{\thesection\arabic{table}}%
+ \setcounter{figure}{0}%
+ \renewcommand{\thefigure}{\thesection\arabic{figure}}%
+ \setcounter{equation}{0}%
+ \renewcommand{\theequation}{\thesection\arabic{equation}}%
+ }
+
+%Some User commands
+\newcommand{\sigten}{\makebox[0em][l]{\mbox{$^{\star}$}}}
+\newcommand{\sigfive}{\makebox[0em][l]{\mbox{$^{\star\star}$}}}
+\newcommand{\sigone}{\makebox[0em][l]{\mbox{$^{\star\star\star}$}}}
+\newcommand{\nn}{\nonumber}
+\newcommand{\nl}{\tabularnewline}
+\newcommand{\mc}{\multicolumn}
+
+\newcommand{\smalltable}{\footnotesize}
+
+\newcommand{\explainstars}{%
+ \begingroup\par\centering\tiny\strut
+    $^{\star}$, $^{\star\star}$, and $^{\star\star\star}$ denote statistical significance at the 10\%, 5\%, and 1\% levels, respectively.
+  \par\endgroup}
+
+\newcommand{\explainparenstars}{%
+ \begingroup\par\centering\tiny\strut
+  \begin{minipage}[t]{0.7\textwidth}
+      Standard errors are in parentheses.  Statistical significance at the 10\%, 5\%, and 1\% level is indicated by one, two, and three stars, respectively.
+    \end{minipage}
+  \par%
+ \endgroup
+}
+
+\newcommand{\articledataboxauthors}[1]{%
+  \articledatabox{ISSN \now@journalissnprint; DOI \csname now@articleDOI\endcsname\\ \copyright\ \now@issuecopyrightyear\ \now@journaltitle\ and #1}}
+
+\ExplSyntaxOn
+\keys_define:nn {nowcfr}
+ {firstname .tl_set:N = \l_nowcfr_author_firstname_tl,
+  FN .tl_set:N = \l_nowcfr_author_firstname_tl,
+  lastname  .tl_set:N = \l_nowcfr_author_lastname_tl,
+  LN  .tl_set:N = \l_nowcfr_author_lastname_tl,
+  junior    .tl_set:N = \l_nowcfr_author_junior_tl,
+  email     .tl_set:N = \l_nowcfr_author_email_tl,
+  EM     .tl_set:N = \l_nowcfr_author_email_tl,
+  institution .tl_set:N =\l_nowcfr_author_institution_tl,
+  IN         .tl_set:N =\l_nowcfr_author_institution_tl,
+  website   .tl_set:N =\l_nowcfr_author_website_tl,
+  }
+
+\newcommand\cfrauthor[1]{
+ \keys_set:nn {nowcfr}{firstname=,lastname=,junior=}
+ \keys_set:nn {nowcfr}{#1}
+ \clist_set:No       \l_nowcfr_temp_clist {\l_nowcfr_author_lastname_tl}
+ \clist_put_right:No \l_nowcfr_temp_clist {\l_nowcfr_author_junior_tl}
+ \clist_put_right:No \l_nowcfr_temp_clist {\l_nowcfr_author_firstname_tl}
+ \exp_args:Nx\author{\clist_use:Nn\l_nowcfr_temp_clist{,}}
+ \tl_set:co{now@authoremail@\the\c@now@author@cnt}{\l_nowcfr_author_email_tl}
+ \tl_set:co{now@authorinstitution@\the\c@now@author@cnt}{\l_nowcfr_author_institution_tl}
+ \tl_set:co{now@authorwebsite@\the\c@now@author@cnt}{\l_nowcfr_author_website_tl}
+  }
+
+\DeclareRobustCommand\now@printauthors{%
+ \c@now@tempcnt=0\relax
+    \whiledo{\c@now@tempcnt<\c@now@author@cnt}
+      {\par\stepcounter{now@tempcnt}%
+       \tl_if_exist:cTF{now@authoremail@\the\c@now@tempcnt}
+       {
+        \tl_set:Nx\l_nowcfr_author_email_tl{mailto:\use:c{now@authoremail@\the\c@now@tempcnt}}
+        \exp_args:No\href{\l_nowcfr_author_email_tl}{\use:c{now@authorfullname@\the\c@now@tempcnt}}
+       }
+       {\use:c{now@authorfullname@\the\c@now@tempcnt}}
+      \tl_if_exist:cT{now@authorinstitution@\the\c@now@tempcnt}
+        {,\c_space_tl
+          \tl_if_exist:cTF{now@authorwebsite@\the\c@now@tempcnt}
+          {
+           \tl_set:Nx\l_nowcfr_author_website_tl{\use:c{now@authorwebsite@\the\c@now@tempcnt}}
+           \exp_args:No\href{\l_nowcfr_author_website_tl}{\use:c{now@authorinstitution@\the\c@now@tempcnt}}
+          }
+          {\use:c{now@authorinstitution@\the\c@now@tempcnt}}
+        }
+       %\par
+      }
+   \ifcsname now@creditlinetext\endcsname
+      \renewcommand\thefootnote{}%
+      \footnote{\now@creditlinetext}%
+   \fi
+}
+
+\newcommand\cfrauthorlist{\now@authorlist@toc}
+
+% getting file num
+\newcommand\jobnum{}
+\newcommand\jobprefix{}
+\seq_new:N \l_nowcfr_splitjobname_seq
+\cs_new:Npn \nowcfr_splitjobname: {
+ \seq_set_split:NnV\l_nowcfr_splitjobname_seq{-}{\jobname}
+ \seq_pop_left:NN\l_nowcfr_splitjobname_seq\jobprefix
+ %\seq_pop_left:NN\l_nowcfr_splitjobname_seq\jobnum
+ \seq_pop_left:NNF\l_nowcfr_splitjobname_seq\jobnum{\let\jobnum\c_empty_tl}
+ }
+\nowcfr_splitjobname:
+
+\AtBeginDocument{
+ \if@nowwrapper\else
+ \tl_if_empty:NT\now@keywords@main{\PackageError{now-cfr}{main~keywords~are~missing!}{}}
+ \tl_if_empty:NT\now@keywords@JEL{\PackageError{now-cfr}{JEL~keywords~are~missing!}{}}
+ \fi
+ }
+\ExplSyntaxOff
+
+%\articleDOI{104.0000\jobnum}
+\IfFileExists{\jobprefix-\jobnum.sty}{\RequirePackage{\jobprefix-\jobnum}}{}
+\IfFileExists{\jobprefix-\jobnum.bib}{\addbibresource{\jobprefix-\jobnum.bib}}{}
+\AtBeginDocument{\articledataboxauthors{\cfrauthorlist}}
+\endinput

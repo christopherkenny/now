@@ -1,0 +1,125 @@
+%% $UFDate: 2018-01-29 19:47:32 +0100 -- Commit: a8ac4d9 (HEAD, bibmacrokrise) -- bibmacrokrise$
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{now-biblatex}
+          [2018/01/29 v1.5 biblatex styling]
+%29.09.2016: adabted to biblatex 3.6 printlabeldateextra
+%18.04.2015: moved biblatex in the sty
+%21.04.2015: uniquename=false,uniquelist=false
+
+\RequirePackage[backend=\nowbiblatexbackend,style=authoryear,dashed=false,natbib=true,firstinits,uniquename=false,uniquelist=false,maxcitenames=2]{biblatex}
+
+\DefineBibliographyStrings{english}{%
+  urlseen = {accessed on},
+}
+\ExecuteBibliographyOptions{maxbibnames=99}
+\ExecuteBibliographyOptions[proceedings]{useeditor=false}
+
+\DeclareFieldFormat{series}{\mkbibemph{#1}}% publication series
+\DeclareFieldFormat[misc,report]{title}{\mkbibquote{#1\isdot}}
+\DeclareFieldFormat{type}{\ifbibstring{#1}{\mkbibemph{\bibstring{#1}}}{\mkbibemph{#1}}}
+
+\DeclareFieldFormat{number}{No\adddot~#1}% number in a series
+
+%dot after series:
+\renewbibmacro*{series+number}{%
+  \printfield{series}%
+  \setunit*{\adddot\addspace}%
+  \printfield{number}%
+  \newunit}
+
+%for newer biblatex: extradate instead of extrayear
+\renewbibmacro*{date+extradate}{%
+    \iffieldundef{\thefield{datelabelsource}year}
+      {}
+      {\setunit{\addperiod\space}
+       \printtext{%
+         \iffieldsequal{year}{\thefield{datelabelsource}year}
+           {\ifcsname printdateextralabel\endcsname
+             \printdateextralabel
+            \else
+             \printlabeldateextra
+            \fi }%
+           {\printfield{labelyear}%
+            \printfield{extradate}}}}}%
+  \renewbibmacro*{date}{}%
+  \renewbibmacro*{issue+date}{%
+    \iffieldundef{issue}
+      {}
+      {\printtext[parens]{\printfield{issue}}}%
+    \newunit}
+
+
+
+\renewbibmacro*{name:andothers}{%
+  \ifboolexpr{
+    test {\ifnumequal{\value{listcount}}{\value{liststop}}}
+    and
+    test \ifmorenames
+  }
+    {\ifnumgreater{\value{liststop}}{1}
+       {\finalandcomma}
+       {}%
+     \andothersdelim\bibstring[\emph]{andothers}}
+    {}}
+
+
+\renewcommand*{\bibpagespunct}{\adddot\space}
+% article:
+%: before pages
+% no in:
+\renewbibmacro*{in:}{%
+  \ifentrytype{article}{}{%
+  \printtext{%
+    \bibstring{in}\intitlepunct}}}
+
+\renewbibmacro*{journal+issuetitle}{%
+  \usebibmacro{journal}%
+  \newunit
+  \iffieldundef{series}
+    {}
+    {\newunit
+     \printfield{series}%
+     \setunit{\addspace}}%
+  \usebibmacro{volume+number+eid}%
+  \setunit{\addcolon\space}
+  \printfield{pages}
+  \newunit}
+
+\DeclareFieldFormat{monthparens}{\mkbibparens{\mkbibmonth{#1}}}
+
+% volume + number or issue or month. No dot before number:
+\renewbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \iffieldundef{number}
+   {\iffieldundef{issue}
+     {\iffieldundef{month}
+      {}
+      {\iffieldundef{volume}
+       {\printfield[month]{month}}
+       {\bibsentence\printfield[monthparens]{month}}}}%
+     {\printfield[parens]{issue}}%
+   }
+   {\printfield[parens]{number}}%
+   \setunit{\addcomma\space}%
+   \printfield{eid}}
+
+\renewbibmacro*{note+pages}{%
+  \printfield{note}%
+  \newunit}
+
+\DeclareFieldFormat{pages}{#1}
+
+\urlstyle{same}
+
+\bibitemsep\parskip
+%\AtBeginBibliography{\flushbottom}??
+%\AtNextBibliography{\flushbottom}??
+%For fiddling with twocolumn breaks:
+
+\newcommand\breakbibliographyafter[1]{%%
+  \ifcsname raggedend\endcsname \raggedend\fi
+  \renewbibmacro{finentry}{%
+   \iffieldequalstr{entrykey}{#1}%<- key after which you want the break
+    {\finentry\pagebreak}
+    {\finentry}}}
+\endinput
