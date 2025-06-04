@@ -216,7 +216,7 @@
             textheight=180mm,
             heightrounded]{geometry}
 
-\PassOptionsToPackage{x11namees,svgnames,table}{xcolor}
+\PassOptionsToPackage{x11names,svgnames,table}{xcolor}
 \IfFileExists{xcolor.sty}
  {\RequirePackage{xcolor}}
  {\RequirePackage{color}
@@ -504,13 +504,14 @@
  \InputIfFileExists{../current-issuedata}{}{}%
 \fi
 %Search first the wrapper folder, then the texmf+current dir.
- \IfFileExists{../\now@journalkey-journaldata.tex}
-  {\input{../\now@journalkey-journaldata.tex}}
-  {\IfFileExists{\now@journalkey-journaldata.tex}
-   {\input{\now@journalkey-journaldata}}
-   {\typeout{Journal data for \now@journalkey\space not found}
-    \typeout{loading the example data instead}%
-    \input{example-journaldata}}}
+% ctk: this is now handled by before-body.tex partial
+ % \IfFileExists{../\now@journalkey-journaldata.tex}
+ %  {\input{../\now@journalkey-journaldata.tex}}
+ %  {\IfFileExists{\now@journalkey-journaldata.tex}
+ %   {\input{\now@journalkey-journaldata}}
+ %   {\typeout{Journal data for \now@journalkey\space not found}
+ %    \typeout{loading the example data instead}%
+ %    \input{example-journaldata}}}
 
 %write the data to a bib-file + a toc-file
 \newcommand\nowtocnewline{}

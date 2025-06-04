@@ -6,10 +6,11 @@ contributes:
   formats:
     common:
       toc: true
-      filters:
-        - now.lua
     pdf:
       include-in-header: header.tex
+      template-partials:
+        - "partials/before-body.tex"
+        - "partials/doc-class.tex"
       format-resources:
         - now-journal.cls
         - nowsort.bst
@@ -19,6 +20,3 @@ contributes:
         - now-jmb.sty
         - now-jws.sty
         - now-sip-biblatex.sty
-    html:
-      css: styles.css
-

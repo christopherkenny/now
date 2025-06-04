@@ -39,3 +39,5 @@ Here is the source code for a minimal sample document: [template.qmd](template.q
 <!-- pdftools::pdf_convert('template.pdf',pages = 1) 
 ![[template.qmd](template.qmd)](template_1.png) -->
 
+## License
+
