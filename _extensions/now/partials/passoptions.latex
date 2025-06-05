@@ -1,0 +1,16 @@
+% passoptions.latex start ----
+\PassOptionsToPackage{
+   unicode,
+   colorlinks    = true,
+   allcolors     = blue,
+   plainpages    = false,
+   pdfpagelabels = true,
+   $for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+$if(colorlinks)$
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+$endif$
+$if(CJKmainfont)$
+\PassOptionsToPackage{space}{xeCJK}
+$endif$
+% passoptions.latex end ----

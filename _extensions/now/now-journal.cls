@@ -220,7 +220,9 @@
 \IfFileExists{xcolor.sty}
  {\RequirePackage{xcolor}}
  {\RequirePackage{color}
-  \RequirePackage{colortbl}}
+ %ctk, don't use this as it can't function w/ rest of pkgs
+  %\RequirePackage{colortbl}
+  }
 
 
 %sectioning

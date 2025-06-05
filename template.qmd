@@ -2,8 +2,7 @@
 title: now publishers Journal Template
 format:
   now-pdf:
-    keep-tex: true  
-  now-html: default
+    keep-tex: true
 author:
   - name: Sarah Malloc
     affiliations:
@@ -23,7 +22,7 @@ author:
 abstract: |
   This document is a template demonstrating the Now format.
 keywords: [template, demo]
-bibliography: bibliography.bib  
+bibliography: bibliography.bib
 ---
 
 ## Introduction {#sec-intro}

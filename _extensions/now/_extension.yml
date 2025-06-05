@@ -9,6 +9,7 @@ contributes:
     pdf:
       include-in-header: header.tex
       template-partials:
+        - "partials/passoptions.latex"
         - "partials/before-body.tex"
         - "partials/doc-class.tex"
       format-resources:
