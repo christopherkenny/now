@@ -2,7 +2,7 @@
 title: now Publishers Journal Template
 format:
   now-pdf:
-    keep-tex: true
+    keep-tex: false
 author:
   - name: Author One
     affiliations:
