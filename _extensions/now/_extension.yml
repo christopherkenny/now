@@ -7,6 +7,8 @@ contributes:
     common:
       toc: false
     pdf:
+      pdf-engine: pdflatex
+      cite-method: biblatex
       include-in-header: header.tex
       template-partials:
         - "partials/_affiliation.tex"
@@ -20,3 +22,5 @@ contributes:
         - now-biblatex.sty
         - now-cfr.sty
         - now-sip-biblatex.sty
+      classoption:
+        - biber

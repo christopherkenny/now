@@ -18,8 +18,6 @@ author:
         city: Cambridge
         state: MA
         postal-code: 02138
-    attributes:
-      equal-contributor: true
   - name: Author Two
     affiliations:
       - name: Yale University
@@ -30,7 +28,6 @@ author:
         postal-code: 06511
     email: corresponding@email.com
     attributes:
-      equal-contributor: true
       corresponding: true
   - name: Author Three
     affiliations:
@@ -71,7 +68,7 @@ This Quarto template is unofficial and builds on `now`'s 2024 LaTeX template.
 Your introduction goes here! 
 Some examples of commonly used commands and features are listed below, to help you get started.
 
-Since we are in Quarto, you can cite with an `@` symbol, like @knuth1984texbook.
+Since we are in Quarto, you can cite with an `@` symbol, like @knuth1984texbook for prose or [@knuth1984texbook] for parentheticals.
 As seen below, you can mix markdown and Latex with each other, though it's likely best to mostly use markdown.
 
 Use section (`#`) and subsection (`##`) commands to organize your document.
@@ -144,10 +141,21 @@ plot(iris$Sepal.Length, iris$Sepal.Width)
 ## Subfigures
 
 Figures can be placed using LaTeX or using [Quarto's figure syntax](https://quarto.org/docs/authoring/figures.html).
-Note that the `.cls` file for the `oup` format does not support subfigures, so you cannot use the `subfigure` package.
 To make a figure, try:
 
 ![Caption for the figure 1.]({{< placeholder 100 100 format=png >}}){#fig-1}
+
+Or to generate a figure with subfigures:
+
+::: {#fig-subfig1 layout-ncol=2 cap-location=bottom}
+
+![fig a]({{< placeholder 100 100 format=png >}}){#fig-sub1-a}
+
+![fig b]({{< placeholder 100 100 format=png >}}){#fig-sub1-b}
+
+Caption for the subfigures 1.
+
+:::
 
 
 # Math works
