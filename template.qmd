@@ -1,5 +1,5 @@
 ---
-title: now publishers Journal Template
+title: now Publishers Journal Template
 format:
   now-pdf:
     keep-tex: true
@@ -23,6 +23,7 @@ abstract: |
   This document is a template demonstrating the Now format.
 keywords: [template, demo]
 bibliography: bibliography.bib
+classoption: [qjps]
 ---
 
 ## Introduction {#sec-intro}

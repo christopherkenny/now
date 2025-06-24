@@ -5,7 +5,7 @@ quarto-required: ">=1.4.0"
 contributes:
   formats:
     common:
-      toc: true
+      toc: false
     pdf:
       include-in-header: header.tex
       template-partials:
@@ -17,7 +17,4 @@ contributes:
         - nowsort.bst
         - now-biblatex.sty
         - now-cfr.sty
-        - now-jmb-biblatex.sty
-        - now-jmb.sty
-        - now-jws.sty
         - now-sip-biblatex.sty

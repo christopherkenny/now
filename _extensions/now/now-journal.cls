@@ -1,6 +1,6 @@
 %% $UFDate: 2017-05-25 19:42:19 +0200 -- Commit: a2a7e4e (origin/master, master) -- bibmacrokrise$
-\def\fileversion{1.08h}
-\def\filedate{2022/03/02}
+\def\fileversion{1.08j}
+\def\filedate{2024/01/23}
 %06.11.2014 moved articlebox up
 %18.04.2015: moved biblatex to now-biblatex.sty. Added code to load a journal specific biblatex.sty
 %28.04.2015 added \journaldoiprefix
@@ -12,7 +12,12 @@
 % 25.05.2017 added \nowauthoraffilsep to separate authors and affil
 % 03.02.2022 added code for OAStatement
 % 03.02.2022 added code for biographies environment (loads enumitem)
-
+% 2024-01-15 update to hook management, load hyperref earlier
+% 2024-01-15 correct xcolor option name
+% 2024-01-17 Adapted \creditline: \creditline*{text} does not print a footmark text in the text
+% 2024-01-17 add hook rule to ensure that hyperref is loaded before the biblatex tests.
+% 2024-01-23 add support for elocation. If \issueelocation{eXX} is used, it is used instead
+% of the pagerefs in firstpage. 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{now-journal}[\filedate\space Version \fileversion]
 
@@ -43,6 +48,7 @@
 \newnowjournal[10pt]{jws}%fontsize will be change again in the sty
 \newnowjournal{sbe}
 \newnowjournal{rbe}
+\newnowjournal{sip}
 \newnowjournal[10pt]{qjps}
 \newnowjournal[12pt]{jws}
 
@@ -66,10 +72,6 @@
  \RequirePackage{etoolbox}%
  }{}{}
 
- \ifcsname AfterEndPreamble\endcsname
- \else
- \let\AfterEndPreamble\AtBeginDocument
- \fi
 
 %Some \if for the options:
 \newif\if@nowwrapper
@@ -220,9 +222,7 @@
 \IfFileExists{xcolor.sty}
  {\RequirePackage{xcolor}}
  {\RequirePackage{color}
- %ctk, don't use this as it can't function w/ rest of pkgs
-  %\RequirePackage{colortbl}
-  }
+  \RequirePackage{colortbl}}
 
 
 %sectioning
@@ -474,13 +474,15 @@
                         issuevolumenumber,%
                         issuevolumeyear,%
                         issuestartpage,%
-                        issuenumber}
+                        issuenumber,%
+                        issueelocation}
 
 \issuecopyrightyear{XXXX}
 \issuevolumenumber{XX}
 \issuenumber{X}
 \issuevolumeyear{XXXX}
 \issuestartpage{1}
+\issueelocation{}
 
 %Data per journal. Name starts with journal.
  \now@setupdatacommands{journaltitle,%
@@ -506,14 +508,13 @@
  \InputIfFileExists{../current-issuedata}{}{}%
 \fi
 %Search first the wrapper folder, then the texmf+current dir.
-% ctk: this is now handled by before-body.tex partial
- % \IfFileExists{../\now@journalkey-journaldata.tex}
- %  {\input{../\now@journalkey-journaldata.tex}}
- %  {\IfFileExists{\now@journalkey-journaldata.tex}
- %   {\input{\now@journalkey-journaldata}}
- %   {\typeout{Journal data for \now@journalkey\space not found}
- %    \typeout{loading the example data instead}%
- %    \input{example-journaldata}}}
+ \IfFileExists{../\now@journalkey-journaldata.tex}
+  {\input{../\now@journalkey-journaldata.tex}}
+  {\IfFileExists{\now@journalkey-journaldata.tex}
+   {\input{\now@journalkey-journaldata}}
+   {\typeout{Journal data for \now@journalkey\space not found}
+    \typeout{loading the example data instead}%
+    \input{example-journaldata}}}
 
 %write the data to a bib-file + a toc-file
 \newcommand\nowtocnewline{}
@@ -572,7 +573,7 @@
   \stepcounter{page}%
   \ifodd\c@page\else\stepcounter{page}\fi}
 
-\AfterEndPreamble{\label{FirstPage}}
+\AddToHook{begindocument/end}{\label{FirstPage}}
 
 %footnotes
 \renewcommand\footnoterule{%
@@ -629,7 +630,8 @@
         \now@printaffilmark{\the\c@now@author@cnt}%
    \fi
    \ifcsname now@creditlinetext\endcsname
-     \footnote{\now@creditlinetext}%
+     \now@creditlinemark
+     \footnotetext{\now@creditlinetext}%
    \fi
 \fi}
 
@@ -650,9 +652,14 @@
   }
 
 
-\newcommand\creditline[2][*]{%
- \def\now@creditlinemark{#1}%
- \def\now@creditlinetext{#2}}
+%\newcommand\creditline[2][]{%
+% \def\now@creditlinemark{#1}%
+% \def\now@creditlinetext{#2}}
+\NewDocumentCommand\creditline{sm}
+ {\IfBooleanTF{#1}
+   {\def\now@creditlinemark{\refstepcounter{footnote}}}
+   {\def\now@creditlinemark{\footnotemark}}%
+  \def\now@creditlinetext{#2}} 
 
 \newsavebox\now@article@databox{}
 \sbox\now@article@databox{}
@@ -751,7 +758,12 @@
  \lhead{%
    \raisebox{0pt}[0pt][0pt]{%
     \parbox[t]{\textwidth}{%
-      \now@font@header\textit{\now@journaltitle}, \now@issuevolumeyear, \now@issuevolumenumber: \pageref{FirstPage}--\pageref{LastPage}\par
+      \now@font@header\textit{\now@journaltitle}, \now@issuevolumeyear,       
+      \now@issuevolumenumber
+      \ifdefempty\now@issueelocation
+       {: \pageref{FirstPage}--\pageref{LastPage}}%
+       {, \now@issueelocation}%
+       \par
       \now@articleoastatement}}}
  \lfoot{\raisebox{\footskip}[0pt][0pt]{\usebox\now@article@databox}}}%06.11.2014
 
@@ -762,7 +774,7 @@
  {\RequirePackage{now-wrapper}}
  {\ClassError{now-journal}{now-wrapper.sty not found}{}}
 \else
- \AtBeginDocument{%
+ \AddToHook{begindocument/before}{%
   \RequirePackage[%
    colorlinks    = true,
    allcolors     = blue,
@@ -775,10 +787,10 @@
   \fi
   {\hypersetup{hidelinks}}%\fi
   }
- \AfterEndPreamble{\maketitle}
+ \AddToHook{begindocument/end}{\maketitle}
 \fi
 
-
+\DeclareHookRule{begindocument/before}{now-journal}{before}{biblatex}
 %captions
 \IfFileExists{caption.sty}
  {\RequirePackage{caption}

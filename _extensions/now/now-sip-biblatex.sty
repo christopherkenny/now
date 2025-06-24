@@ -1,11 +1,14 @@
 %% $UFDate: 2015-06-08 11:40:27 +0200 -- Commit: 610cce7 (HEAD, origin/master, master, jmbbib) -- master$
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{now-sip-biblatex}
-          [2022/02/03 v1.0 biblatex styling for sip-journal]
+          [2024/02/09 v1.0c biblatex styling for sip-journal]
 %18.04.2015: moved biblatex in the sty
 %08.06.2015: added code to change the citation format.
+%2024-01-17: added giveninits=true
+%2024-02-08: changed journal+issuetitle to show also year. 
+%2024-02-09: changed issue+date: year not in parens
 
-\RequirePackage[backend=\nowbiblatexbackend,style=numeric,
+\RequirePackage[backend=\nowbiblatexbackend,style=numeric,giveninits=true,
                 natbib=true,uniquename=init,maxcitenames=2,dateabbrev=false]{biblatex}
 
 
@@ -59,7 +62,6 @@
   \printtext{%
     \bibstring{in}\intitlepunct}}}
 
-
 \renewbibmacro*{journal+issuetitle}{%
   \usebibmacro{journal}%
   \newunit
@@ -69,10 +71,18 @@
      \printfield{series}%
      \setunit{\addspace}}%
   \usebibmacro{volume+number+eid}%
+  \setunit{\addcomma\addspace}%
+  \usebibmacro{issue+date}%
   \setunit{\bibpagespunct} %comma statt colon
   \printfield{pages}
   \newunit}
-
+  
+\renewbibmacro*{issue+date}{%
+  \printtext{%
+    \printfield{issue}%
+    \setunit*{\addspace}%
+    \usebibmacro{date}}%
+  \newunit}
 
 % volume + number or issue or month. No dot before number:
 \renewbibmacro*{volume+number+eid}{%
