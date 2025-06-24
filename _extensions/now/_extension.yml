@@ -9,9 +9,11 @@ contributes:
     pdf:
       include-in-header: header.tex
       template-partials:
+        - "partials/_affiliation.tex"
         - "partials/passoptions.latex"
         - "partials/before-body.tex"
         - "partials/doc-class.tex"
+        - "partials/title.tex"
       format-resources:
         - now-journal.cls
         - nowsort.bst

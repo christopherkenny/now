@@ -4,30 +4,164 @@ format:
   now-pdf:
     keep-tex: true
 author:
-  - name: Sarah Malloc
+  - name: Author One
     affiliations:
-      - name: An Organization
-        department: The Department
-        address: 1 Main St
-        city: Boston
-        country: USA
-        postal-code: 02210-1022
-      - A second affilication
-    orcid: 0000-0000-0000-0000
-    email: sm@example.org
-    url: https://example.org/
-  - name: Eliza Dealloc
+      - name: Harvard University
+        id: 1
+        department: Department of Government
+        city: Cambridge
+        state: MA
+        postal-code: 02138
+      - name: Harvard University
+        id: 2
+        department: Department of Statistics
+        city: Cambridge
+        state: MA
+        postal-code: 02138
+    attributes:
+      equal-contributor: true
+  - name: Author Two
     affiliations:
-      - Another Affiliation
+      - name: Yale University
+        id: 3
+        department: Department of Political Science
+        city: New Haven
+        state: CT
+        postal-code: 06511
+    email: corresponding@email.com
+    attributes:
+      equal-contributor: true
+      corresponding: true
+  - name: Author Three
+    affiliations:
+      - ref: 1
 abstract: |
   This document is a template demonstrating the Now format.
+acknowledgements: Thanks to Chris for writing up this template.
 keywords: [template, demo]
 bibliography: bibliography.bib
-classoption: [qjps]
+journal:
+  code: qjps
+  issue-volume-year: 2024
+  issue-volume-number: x(x)
+  disclaimer: Disclaimers are optional.
+  data-box: |
+    Received xx xxxxx 2024; Revised xx xxxxx 2024
+    ISSN xxxx-xxxx; DOI 10.1561/xxx.xxxxxxxx
+  copyright: 2024 A. One and A. Two
+  
+  title: Example Journal
+  shorttitle: XXX
+  url: www.now.com
+  issnprint: XXXX-XXXX
+  issnonline: XXXX-XXXX
+  aimsandscope: |
+    This is a text to describe the aim of the journal.
+    *Example Journal* is the name of the journal. XXX its short title.
+  submission: |
+    The Example Journal accepts only electronic submissions. See www.now.com for complete instructions.
+  abstractedin: Journal A, Journal B, Journal C
 ---
 
 ## Introduction {#sec-intro}
 
-*TODO* Create a template that demonstrates the appearance, formatting, layout, and functionality of your format. Learn more about journal formats at <https://quarto.org/docs/journals/>.
+Thank you for using this Quarto template to write your article. 
+This Quarto template is unofficial and builds on `now`'s 2024 LaTeX template.
+
+Your introduction goes here! 
+Some examples of commonly used commands and features are listed below, to help you get started.
+
+Since we are in Quarto, you can cite with an `@` symbol, like @knuth1984texbook.
+As seen below, you can mix markdown and Latex with each other, though it's likely best to mostly use markdown.
+
+Use section (`#`) and subsection (`##`) commands to organize your document.
+LaTeX and Quarto handle all the formatting and numbering automatically.
+Use the `@` commands for cross-references (not just cites).
+
+# Using this template {#sec-template}
+
+Some examples of commonly used commands and features are listed below, to help you get started.
+
+You can mix Quarto's markdown syntax and Latex with each other, though it's likely best to mostly use markdown.
+
+Major features are illustrated below:
+
+## Cross Referencing
+
+To reference a figure with example label "plot" (@fig-1), use `@fig-plotlabel`. 
+Analogously, to reference a table with example label "data", use `@tbl-data`.
+To reference a section, such as the Introduction (@sec-intro), use `@sec-intro`.
+
+For complete information on cross referencing with Quarto, see <https://quarto.org/docs/authoring/cross-references.html>.
+
+## Citations
+
+Quarto formats citations and references automatically using the bibliography records in your .bib file. 
+For a citation in parentheses use [@greenwade93]. 
+Multiple citations can be given as [@greenwade93;@knuth1984texbook]. 
+
+# Tables and Figures
+
+To include figures, you can use Quarto syntax.
+
+
+# Including Lists
+
+- Item 1
+- Item 2
+- Item 3
+  - a
+
+# Including Tables
+
+| Journal | Code | ISSN | DOI |
+| ------- | ---- | ---- | --- |
+| APSIPA Transactions on Signal and Information Processing | sip | 2048-7703 | 116 |
+| Critical Finance Review | cfr | 2164-5744 | 104 |
+| Data Envelopment Analysis Journal | dea | 2161-1823 | 103 |
+| International Review of Environmental and Resource Economics | irere | 1932-1465 | 101 |
+| Journal of Forest Economics | jfe | 1104-6899 | 112 |
+| Journal of Historical Political Economy | hpe | 2693-9290 | 115 |
+| Journal of Law, Finance, and Accounting | jlfa | 2380-5005 | 108 |
+| Journal of Political Institutions and Political Economy | pip | 2689-4823 | 113 |
+| The Journal of Web Science | jws | 2332-4031 | 106 |
+| Quarterly Journal of Political Science | qjps | 1554-0626 | 100 |
+| Review of Behavioral Economics | rbe | 2326-6198 | 105 |
+| Review of Corporate Finance | rcf | 2693-9312 | 114 |
+| Strategic Behavior and the Environment | sbe | 1944-012X | 102 |
+| Strategic Management Review | smr | 2688-2612 | 111 |
+
+: Journal codes and details for NOW {#tbl-now}
+
+# Including code
+
+```{r}
+#| label: fig-sepal
+#| fig-cap: "According to ChatGPT, the Iris data set is a well-known dataset in the field of machine learning and statistics, often used for benchmarking algorithms. It consists of 150 observations of iris flowers from three species: Iris setosa, Iris versicolor, and Iris virginica. Each observation includes four features: sepal length, sepal width, petal length, and petal width, all measured in centimeters. This dataset is particularly useful for classification tasks as the species are distinct and easily separable based on the given measurements. In R, the dataset can be accessed using the datasets package with the command data(iris)."
+plot(iris$Sepal.Length, iris$Sepal.Width)
+```
+
+## Subfigures
+
+Figures can be placed using LaTeX or using [Quarto's figure syntax](https://quarto.org/docs/authoring/figures.html).
+Note that the `.cls` file for the `oup` format does not support subfigures, so you cannot use the `subfigure` package.
+To make a figure, try:
+
+![Caption for the figure 1.]({{< placeholder 100 100 format=png >}}){#fig-1}
+
+
+# Math works
+
+You can use LaTeX math in Quarto documents, like so:
+
+$$ 3 + 3 \cdot \epsilon $$
+
+### References
+
+Reference are automatically placed at the end of the document.
+To control placement elsewhere, use the `refs` div:
+
+::: {#refs}
+:::
 
 

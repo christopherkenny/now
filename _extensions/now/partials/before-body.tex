@@ -1,6 +1,3 @@
-$if(title)$
-\maketitle
-$endif$
 
 $if(abstract)$
 \begin{abstract}
@@ -8,46 +5,46 @@ $abstract$
 \end{abstract}
 $endif$
 
-$if(journaltitle)$
-\journaltitle{$journaltitle$}
+$if(journal.title)$
+\journaltitle{$journal.title$}
 $else$
 \journaltitle{Example Journal}
 $endif$
-$if(journalshorttitle)$
-\journalshorttitle{$journalshorttitle$}
+$if(journal.shorttitle)$
+\journalshorttitle{$journal.shorttitle$}
 $else$
 \journalshorttitle{XXX}
 $endif$
-$if(journalurl)$
-\journalurl{$journalurl$}
+$if(journal.url)$
+\journalurl{$journal.url$}
 $else$
 \journalurl{www.now.com}
 $endif$
-$if(journalissnprint)$
-\journalissnprint{$journalissnprint$}
+$if(journal.issnprint)$
+\journalissnprint{$journal.issnprint$}
 $else$
 \journalissnprint{XXXX-XXXX}
 $endif$
-$if(journalissnonline)$
-\journalissnonline{$journalissnonline$}
+$if(journal.issnonline)$
+\journalissnonline{$journal.issnonline$}
 $else$
 \journalissnonline{XXXX-XXXX}
 $endif$
-$if(journalaimsandscope)$
-\journalaimsandscope{$journalaimsandscope$}
+$if(journal.aimsandscope)$
+\journalaimsandscope{$journal.aimsandscope$}
 $else$
 \journalaimsandscope{%
  This is a text to describe the aim of the journal.\par
  \textit{\now@journaltitle} is the name of the journal. \now@journalshorttitle\ its short title.}
 $endif$
-$if(journalsubmission)$
-\journalsubmission{$journalsubmission$}
+$if(journal.submission)$
+\journalsubmission{$journal.submission$}
 $else$
 \journalsubmission{%
 The \now@journaltitle\ accepts only electronic submissions. See \now@journalurl\ for complete instructions.}
 $endif$
-$if(journalabstractedin)$
-\journalabstractedin{$journalabstractedin$}
+$if(journal.abstractedin)$
+\journalabstractedin{$journal.abstractedin$}
 $else$
 \journalabstractedin{Journal A, Journal B, Journal C}
 $endif$

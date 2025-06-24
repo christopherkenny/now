@@ -508,13 +508,14 @@
  \InputIfFileExists{../current-issuedata}{}{}%
 \fi
 %Search first the wrapper folder, then the texmf+current dir.
- \IfFileExists{../\now@journalkey-journaldata.tex}
-  {\input{../\now@journalkey-journaldata.tex}}
-  {\IfFileExists{\now@journalkey-journaldata.tex}
-   {\input{\now@journalkey-journaldata}}
-   {\typeout{Journal data for \now@journalkey\space not found}
-    \typeout{loading the example data instead}%
-    \input{example-journaldata}}}
+% CTK: these are inserted instead of being included
+ % \IfFileExists{../\now@journalkey-journaldata.tex}
+ %  {\input{../\now@journalkey-journaldata.tex}}
+ %  {\IfFileExists{\now@journalkey-journaldata.tex}
+ %   {\input{\now@journalkey-journaldata}}
+ %   {\typeout{Journal data for \now@journalkey\space not found}
+ %    \typeout{loading the example data instead}%
+ %    \input{example-journaldata}}}
 
 %write the data to a bib-file + a toc-file
 \newcommand\nowtocnewline{}

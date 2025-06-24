@@ -1,0 +1,43 @@
+$if(title)$
+\title{$title$}
+$endif$
+
+$for(by-author)$
+\author[$if(by-author.affiliations)$$for(by-author.affiliations)$$it.id$$sep$,$endfor$$endif$%
+$if(by-author.attributes.corresponding)$,*$endif$%
+]{$by-author.name.literal$}
+$endfor$
+
+$for(by-affiliation)$
+\affil[$it.id$]{$_affiliation.tex()$}
+$endfor$
+
+$for(by-author)$
+$if(by-author.attributes.corresponding)$
+\creditline*{Corresponding author: $by-author.email$ $if(acknowledgements)$\\$acknowledgements$$endif$}
+$endif$
+$endfor$
+
+$if(journal.issue-volume-year)$
+\issuevolumeyear{$journal.issue-volume-year$}
+$endif$
+
+$if(journal.issue-volume-number)$
+\issuevolumenumber{$journal.issue-volume-number$}
+$endif$
+
+$if(journal.data-box)$
+\articledatabox{$journal.data-box$ $if(journal.copyright)$ \copyright $journal.copyright$ $endif$}
+$endif$
+
+$if(keywords)$
+\keywords{$for(keywords)$$keywords$$sep$, $endfor$}
+$endif$
+
+$if(journal.jel-keywords)$
+\keywords{$for(journal.jel-keywords)$$journal.jel-keywords$$sep$, $endfor$}
+$endif$
+
+$if(journal.disclaimer)$
+\disclaimer{$journal.disclaimer$}
+$endif$

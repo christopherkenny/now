@@ -30,7 +30,10 @@ format:
 
 ## Options
 
-*TODO*: If your format has options that can be set via document metadata, describe them.
+
+
+Note that acknowledgements *only* show if there is a corresponding author due to limitations of the underlying LaTeX template.
+
 
 ## Example
 
